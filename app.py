@@ -1,7 +1,11 @@
-from flask import Flask, Response
+from flask import Flask, Response, render_template
 from stream import Stream
 
 app = Flask(__name__)
+@app.route('/')
+def index():
+    """Video streaming home page."""
+    return render_template('index.html')
 
 @app.route('/video_feed')
 def video_feed():
