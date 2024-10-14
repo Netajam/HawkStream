@@ -2,11 +2,12 @@ from config import CAMERA_SRC2
 from camera import Camera
 import cv2
 
-from object_detector import ObjectDetector
+from frame_processor import FrameProcessor
 class Stream:
     def __init__(self, camera: Camera = Camera(CAMERA_SRC2),is_detection=True):
         self.camera = camera
-        self.object_detector=ObjectDetector() if is_detection else None
+        self.frame_processor=FrameProcessor(is_detection,True)
+        self.is_detection=is_detection
 
     def generate_raw_frames(self):
         while True:
@@ -20,7 +21,8 @@ class Stream:
             frame = self.camera.get_frame()
             if frame is None:
                 break
-            frame=self.object_detector.detect_and_track(frame)
+
+            frame=self.frame_processor.process(frame)
             ret, buffer = cv2.imencode('.jpg', frame)
             if not ret:
                 continue
