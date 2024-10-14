@@ -10,3 +10,4 @@ rtsp_ip= os.getenv('RTSP_IP')
 CAMERA_SRC2 = f'rtsp://{rtsp_admin}:{rtsp_password}@{rtsp_ip}/stream1'
 CAMERA_SRC2_1 = f'rtsp://{rtsp_admin}:{rtsp_password}@{rtsp_ip}/stream2'
 DATABASE='object_detection.db'
+YOLO_MODEL='yolo11n'
