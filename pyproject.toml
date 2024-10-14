@@ -1,0 +1,27 @@
+[tool.poetry]
+name = "hawk-stream"
+version = "0.1.0"
+description = "Web app of camera livestream with object detection and analytics."
+authors = ["Netajam <leonard.tavoli@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.8,<3.12"
+flask = "3.0.3"
+opencv-python = "4.10.0.84"
+python-dotenv = "1.0.1"
+setuptools = "75.1.0"
+supervision = "0.24.0"
+ultralytics = "8.3.12"
+torch = "2.4.1"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.3"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+pythonpath = ["hawk_stream"]

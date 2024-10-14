@@ -1,7 +1,8 @@
 import torch
 import supervision as sv
 from ultralytics import YOLO
-from config import YOLO_MODEL
+from config import YOLO_MODEL 
+from detected_object import DetectedObject
 # To run on Mac: Check if MPS is available
 if torch.backends.mps.is_available():
     device = torch.device("mps")
@@ -26,8 +27,11 @@ class ObjectDetector:
         tracked_detections = self.tracker.update_with_detections(converted_detections)
         
         labels = []
+        active_objects=set()
         for class_id, tracker_id in zip(tracked_detections.class_id, tracked_detections.tracker_id):
             class_name = detections.names[class_id]
+            object=DetectedObject(tracker_id,class_name,class_id)
+            active_objects.add(object)
             label = f"#{tracker_id} {class_name}"
             labels.append(label)
 
@@ -36,4 +40,4 @@ class ObjectDetector:
         
         annotated_frame = self.label_annotator.annotate(scene=annotated_frame, detections=tracked_detections, labels=labels)
         
-        return annotated_frame
+        return annotated_frame , active_objects
