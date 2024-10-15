@@ -1,5 +1,6 @@
 from typing import Dict
 import datetime
+from logger import app_logger
 from detected_object import DetectedObject
 from database import DB
 class StreamInsight:
@@ -9,10 +10,13 @@ class StreamInsight:
     def record_object(self):
         pass 
 
-    def add_object(self,obj:DetectedObject):
+    def add_object(self,obj:DetectedObject): 
+        print("add object")
+        app_logger.debug("D add objects")
         self.active_objects[f"{obj.class_id}_{obj.object_id}"]=obj
         self.database.add_object(obj)
-    def update_object(self, obj: DetectedObject):
+    def update_object(self, obj: DetectedObject): 
+        print("update objects")
         object_key = f"{obj.class_id}_{obj.object_id}"
         
         if object_key in self.active_objects:
@@ -20,7 +24,8 @@ class StreamInsight:
             
             self.database.update_object(self.active_objects[object_key])
         else:
-            print(f"Object with key {object_key} not found in active_objects.") 
+            app_logger.error(f"Object with key {object_key} not found in active_objects.") 
+
     def remove_inactive_objects(self, timeout_seconds=5):
         current_time = datetime.datetime.now(datetime.timezone.utc)
         
@@ -29,5 +34,5 @@ class StreamInsight:
             elapsed_time = (current_time - last_seen_time).total_seconds()
 
             if elapsed_time > timeout_seconds:
-                print(f"Removing inactive object with key {object_key}")
+                app_logger.info(f"Removing inactive object with key {object_key}")
                 del self.active_objects[object_key]

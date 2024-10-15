@@ -1,6 +1,7 @@
 import torch
 import supervision as sv
 from ultralytics import YOLO
+from logger import app_logger
 from config import YOLO_MODEL 
 from detected_object import DetectedObject
 # To run on Mac: Check if MPS is available
@@ -8,8 +9,7 @@ if torch.backends.mps.is_available():
     device = torch.device("mps")
 else:
     device = torch.device("cpu")
-print(device)
-
+app_logger.info(f"{device} is used for torch compute")
 class ObjectDetector:
     def __init__(self, model_name=YOLO_MODEL):
         self.model = YOLO(model_name)

@@ -15,6 +15,7 @@ setuptools = "75.1.0"
 supervision = "0.24.0"
 ultralytics = "8.3.12"
 torch = "2.4.1"
+logging = "^0.4.9.6"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.3.3"

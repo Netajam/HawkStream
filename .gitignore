@@ -105,3 +105,5 @@ docs/_build/
 *.env
 .env.*
 
+# Ignore Databases
+./hawk_stream/object_detections.db

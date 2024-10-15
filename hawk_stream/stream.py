@@ -1,7 +1,7 @@
 from config import CAMERA_SRC2
 from camera import Camera
 import cv2
-
+from logger import app_logger
 from frame_processor import FrameProcessor
 class Stream:
     def __init__(self, camera: Camera = Camera(CAMERA_SRC2),is_detection=True):
@@ -29,6 +29,11 @@ class Stream:
             frame = buffer.tobytes()
             yield (b'--frame\r\n'
                    b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+    def close(self):
+        """Close the camera stream explicitly"""
+        if self.camera:
+            del self.camera
+        app_logger.info("Stream closed.")
 
 if __name__ == '__main__':
     stream = Stream()
@@ -40,3 +45,4 @@ if __name__ == '__main__':
             break
 
     cv2.destroyAllWindows()
+    stream.close()
